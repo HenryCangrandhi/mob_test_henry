@@ -120,7 +120,10 @@ class _UserListState extends State<UserList> {
               padding: const EdgeInsets.only(left: 15),
               child: GestureDetector(
                 onTap: () {
-                  isSorted = true;
+                  setState(() {
+                    isSorted = !isSorted;
+                    print(isSorted);
+                  });
                 },
                 child: const Row(
                   children: [
@@ -138,6 +141,12 @@ class _UserListState extends State<UserList> {
                     return const Center(child: CircularProgressIndicator(),);
                   }
                   if (state is UserLoaded) {
+                    if (isSorted) {
+                      state.users.sort((a,b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+                    }
+                    else {
+                      state.users.sort((a,b) => a.id.compareTo(b.id));
+                    }
                     return ListView.builder(
                         itemCount: state.users.length,
                         itemBuilder: (context, index) {
