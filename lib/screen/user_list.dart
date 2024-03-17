@@ -139,16 +139,14 @@ class _UserListState extends State<UserList> {
                     return const Center(child: CircularProgressIndicator(),);
                   }
                   if (state is UserLoaded) {
-                    if (isSorted) {
-                      state.users.sort((a,b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-                    }
-                    else {
-                      state.users.sort((a,b) => a.id.compareTo(b.id));
-                    }
                     if (resultFilter == 'City') {
-                      state.users.sort((a,b) => a.city.toLowerCase().compareTo(b.city.toLowerCase()));
-                    } else if (resultFilter == 'Default') {
-                      state.users.sort((a,b) => a.id.compareTo(b.id));
+                      state.users.sort((a, b) => a.city.toLowerCase().compareTo(b.city.toLowerCase()));
+                    } else if (isSorted) {
+                      // Jika filter bukan 'City' dan tombol sorting diaktifkan
+                      state.users.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+                    } else {
+                      // Jika filter bukan 'City' dan tombol sorting dinonaktifkan
+                      state.users.sort((a, b) => a.id.compareTo(b.id));
                     }
                     return ListView.builder(
                         itemCount: state.users.length,
