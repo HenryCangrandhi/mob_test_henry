@@ -22,7 +22,7 @@ class _UserListState extends State<UserList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red,
+          backgroundColor: const Color(0xffe4284a),
           title: Text(widget.title),
         ),
         body: Column(
