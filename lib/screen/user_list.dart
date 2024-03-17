@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:mob_test_henry/blocs/user_bloc.dart';
 import 'package:mob_test_henry/blocs/user_state.dart';
 import 'package:mob_test_henry/models/user.dart';
+import 'package:mob_test_henry/widgets/filter_bottom_sheet.dart';
 
 class UserList extends StatefulWidget {
   const UserList({super.key, required this.title});
@@ -15,6 +17,9 @@ class UserList extends StatefulWidget {
 
 class _UserListState extends State<UserList> {
   String searchText = '';
+  String resultFilter = 'Default';
+  bool isSorted = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +28,7 @@ class _UserListState extends State<UserList> {
           title: Text(widget.title),
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15, top: 20, bottom: 20),
@@ -80,6 +86,15 @@ class _UserListState extends State<UserList> {
                   ),
                   GestureDetector(
                     onTap: () async {
+                      resultFilter = (await FilterBottomSheet.showFilterBottomSheet(
+                        context: context,
+                        onSelectFilter: (filter) {
+                          setState(() {
+                            resultFilter = filter;
+                          });
+                        },
+                        selectedFilter: resultFilter,
+                      )) ?? '';
                     },
                     child: Container(
                       height: 45,
@@ -101,6 +116,21 @@ class _UserListState extends State<UserList> {
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: GestureDetector(
+                onTap: () {
+                  isSorted = true;
+                },
+                child: const Row(
+                  children: [
+                    Icon(Icons.sort, size: 20),
+                    SizedBox(width: 4),
+                    Text('Sort by Name'),
+                  ],
+                ),
+              ),
+            ),
             Expanded(
               child: BlocBuilder<UserBloc,UserState>(
                 builder: (context, state) {
@@ -111,119 +141,119 @@ class _UserListState extends State<UserList> {
                     return ListView.builder(
                         itemCount: state.users.length,
                         itemBuilder: (context, index) {
-                          if(state.users[index].name.toLowerCase().contains(searchText.toLowerCase())) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                              child: SizedBox(
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    side: const BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  color: Colors.white,
-                                  elevation: 0,
-                                  child:  Row(
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 10),
-                                        child: Icon(
-                                          Icons.account_circle_outlined,
-                                          color: Colors.black,
-                                          size: 60,
-                                        ),
+                          if(state.users[index].name.toLowerCase().contains(searchText.toLowerCase()) ) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                                child: SizedBox(
+                                  child: Card(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      side: const BorderSide(
+                                        color: Colors.black,
+                                        width: 1,
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 10),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            RichText(
-                                              text: TextSpan(
-                                                style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black, // Sesuaikan warna teks sesuai kebutuhan
-                                                ),
-                                                children: [
-                                                  TextSpan(
-                                                    text: state.users[index].name,
+                                    ),
+                                    color: Colors.white,
+                                    elevation: 0,
+                                    child:  Row(
+                                      children: [
+                                        const Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 10),
+                                          child: Icon(
+                                            Icons.account_circle_outlined,
+                                            color: Colors.black,
+                                            size: 60,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 10),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              RichText(
+                                                text: TextSpan(
+                                                  style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black,
                                                   ),
-                                                  TextSpan(
-                                                    text: ' (${state.users[index].id})',
-                                                    style: const TextStyle(
-                                                      fontWeight: FontWeight.normal, // Jika Anda ingin teks id memiliki bobot normal
-                                                      color: Colors.grey, // Warna teks id
+                                                  children: [
+                                                    TextSpan(
+                                                      text: state.users[index].name,
                                                     ),
+                                                    TextSpan(
+                                                      text: ' (${state.users[index].id})',
+                                                      style: const TextStyle(
+                                                        fontWeight: FontWeight.normal,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.home,
+                                                    color: Colors.black,
+                                                    size: 20,
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  Text(
+                                                      state.users[index].address
                                                   ),
                                                 ],
                                               ),
-                                            ),
-
-                                            Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.home,
-                                                  color: Colors.black,
-                                                  size: 20,
-                                                ),
-                                                const SizedBox(width: 5),
-                                                Text(
-                                                    state.users[index].address
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.email_outlined,
-                                                  color: Colors.black,
-                                                  size: 18,
-                                                ),
-                                                const SizedBox(width: 5),
-                                                Text(
-                                                    state.users[index].email
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.phone,
-                                                  color: Colors.black,
-                                                  size: 18,
-                                                ),
-                                                const SizedBox(width: 5),
-                                                Text(
-                                                    state.users[index].phoneNumber
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.location_city_outlined,
-                                                  color: Colors.black,
-                                                  size: 18,
-                                                ),
-                                                const SizedBox(width: 5),
-                                                Text(
-                                                    state.users[index].city
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.email_outlined,
+                                                    color: Colors.black,
+                                                    size: 18,
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  Text(
+                                                      state.users[index].email
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.phone,
+                                                    color: Colors.black,
+                                                    size: 18,
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  Text(
+                                                      state.users[index].phoneNumber
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.location_city_outlined,
+                                                    color: Colors.black,
+                                                    size: 18,
+                                                  ),
+                                                  const SizedBox(width: 5),
+                                                  Text(
+                                                      state.users[index].city
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }
+                              );
+                            }
                           else {
                             return const SizedBox.shrink();
                           }
