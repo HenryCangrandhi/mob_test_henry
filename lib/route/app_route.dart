@@ -7,6 +7,6 @@ class RouteClass{
   static String getHomeRoute() => home;
 
   static List<GetPage> routes = [
-    GetPage(name: home, page: ()=> UserList(title: "User Data")),
+    GetPage(name: home, page: ()=> const UserList(title: "User Data")),
   ];
 }

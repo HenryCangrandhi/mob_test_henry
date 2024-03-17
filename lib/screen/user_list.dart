@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 import 'package:mob_test_henry/blocs/user_bloc.dart';
 import 'package:mob_test_henry/blocs/user_state.dart';
-import 'package:mob_test_henry/models/user.dart';
 import 'package:mob_test_henry/widgets/filter_bottom_sheet.dart';
 
 class UserList extends StatefulWidget {
@@ -145,6 +143,11 @@ class _UserListState extends State<UserList> {
                       state.users.sort((a,b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
                     }
                     else {
+                      state.users.sort((a,b) => a.id.compareTo(b.id));
+                    }
+                    if (resultFilter == 'City') {
+                      state.users.sort((a,b) => a.city.toLowerCase().compareTo(b.city.toLowerCase()));
+                    } else if (resultFilter == 'Default') {
                       state.users.sort((a,b) => a.id.compareTo(b.id));
                     }
                     return ListView.builder(
