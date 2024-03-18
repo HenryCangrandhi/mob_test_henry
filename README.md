@@ -16,11 +16,11 @@
 
  # User Interface
    - Tampilan Home screen dibuat seperti tampilan aplikasi pada umumnya yang memiliki logo dan juga tombol untuk melanjutkan ke halaman user list.
-   [!HOME SCREEN!](assets/home_screen.png)
+   ![!HOME SCREEN!](assets/home_screen.png)
    - Setelah itu, halaman user list terdiri dari search box dan filter button diatas/diawal agar user dapat langsung mencari nama atau apply filter.
    - Sory by name diletakan sebelum tampilan card agar mempermudah user dan minimalisir navigasi.
    - Informasi ditampilkan didalam card agar terlihat/terkesan seperti id card yang berisi informasi user dan memiliki icon "people" agar memperjelas bahwa informasi tersebut adalah user.
    - Id number diletakan di samping nama, agar meminimalisir kolom informasi.
-   [!USER LIST!](assets/user_list.png)
+   ![!USER LIST!](assets/user_list.png)
   
 
