@@ -11,10 +11,16 @@
  - User juga dapat menekan tombol filter dan sistem akan memanggil bottom sheet. Pada bottom sheet tersebut, user dapat melakukan sort by city. Sistem akan mengelompokan setiap card yang memiliki value city yang sama.
  - User dapat menekan text "sort by name" untuk melakukan sort secara alphabet/ascending. Lalu, user juga dapat menekan tombol sort lagi untuk mengembalikan ke keadaan awal.
 
-   # Teknologi yang digunakan
-   - Aplikasi ini dibuat menggunakan library: Bloc (8.1.3), flutter_bloc (8.1.4), http (0.13.6), get (4.6.6)
+ # Teknologi yang digunakan
+ - Aplikasi ini dibuat menggunakan library: Bloc (8.1.3), flutter_bloc (8.1.4), http (0.13.6), get (4.6.6)
 
-   # User Interface
-   
+ # User Interface
+   - Tampilan Home screen dibuat seperti tampilan aplikasi pada umumnya yang memiliki logo dan juga tombol untuk melanjutkan ke halaman user list.
+   [!HOME SCREEN!](assets/home_screen.png)
+   - Setelah itu, halaman user list terdiri dari search box dan filter button diatas/diawal agar user dapat langsung mencari nama atau apply filter.
+   - Sory by name diletakan sebelum tampilan card agar mempermudah user dan minimalisir navigasi.
+   - Informasi ditampilkan didalam card agar terlihat/terkesan seperti id card yang berisi informasi user dan memiliki icon "people" agar memperjelas bahwa informasi tersebut adalah user.
+   - Id number diletakan di samping nama, agar meminimalisir kolom informasi.
+   [!USER LIST!](assets/user_list.png)
   
 
